@@ -1,0 +1,22 @@
+//Masuk Kedalam MySQL : C:AusersVAsus Xuy1M»cd /xampp/nysgl/bin
+//Masuk Kedalam Database melalui CMD : mysQl -u root -p
+//Tampilkan Database Yang Sudah Dibuat : SHOW DATABASES;
+//Membuat Database Baru : MariaDB ((none))» CREATE DATABASE dbpegawai;
+                            Query OK, 1 row affected (9.009 sec)
+//Masuk Ke Ruang Database dbpegawai : MariaDB L((none))» USE dbpegawai;
+                                        Database changed
+//Menampilkan Tabel-Tabel Yang Sudah Ada di dbpegawai : SHOW TABLES;
+//Membuat Tabel pegawai dengan fields : MariaDB Ldbpegawail» CREATE TABLE pegawai(
+                                        —>> id int PRIMARY KEY,
+                                        —» nip char(5) NOT NULL UNIOUE
+                                        —» nama varchar (38) NOT NULL
+                                        —» gender enum('L',"P') NOT NULL
+                                        —» umur int NOT NULL,
+                                        —» berat badan float):
+                                        Query OK, 9 rows affected (0.122 sec)
+
+//Menampilkan Database Yang Sudah Dibuat : SHOW DATABASES;
+//Melihat Deskripsi Tabel pegawai Yang Sudah Dibuat : DESC pegawai;
+1.png
+2.png
+3.png
