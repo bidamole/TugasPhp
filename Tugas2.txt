@@ -153,3 +153,27 @@ MariaDB [tokosib5]> SELECT * FROM pembelian;
 | 2023-10-10 | 005   |         6 |       2 |  1200 | 5         |
 +------------+-------+-----------+---------+-------+-----------+
 5 rows in set (0.001 sec)
+
+MariaDB [tokosib5]> DESC vendor;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| nomor  | varchar(10) | NO   | PRI | NULL    |       |
+| nama   | varchar(50) | YES  |     | NULL    |       |
+| kota   | varchar(50) | YES  |     | NULL    |       |
+| kontak | varchar(15) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.008 sec)
+
+MariaDB [tokosib5]> DESC pembelian;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| tanggal   | date        | YES  |     | NULL    |       |
+| nomor     | varchar(10) | YES  |     | NULL    |       |
+| produk_id | int(11)     | YES  | MUL | NULL    |       |
+| jumblah   | int(11)     | YES  |     | NULL    |       |
+| harga     | int(11)     | YES  |     | NULL    |       |
+| vendor_id | varchar(10) | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.012 sec)
