@@ -1,0 +1,155 @@
+Microsoft Windows [Version 10.0.22621.2361]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Asus X441M>cd /xampp/mysql/bin
+
+C:\xampp\mysql\bin>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 28
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| db_kependudukan    |
+| dbpegawai          |
+| dbpenduduk         |
+| dbportalci         |
+| information_schema |
+| mefqy4unq2         |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| praktikum          |
+| test               |
+| tokosib5           |
++--------------------+
+12 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> USE tokosib5;
+Database changed
+MariaDB [tokosib5]> CREATE TABLE vendor(
+    -> nomor VARCHAR(10),
+    -> nama VARCHAR(50),
+    -> kota VARCHAR(50),
+    -> kontak VARCHAR(15),
+    -> PRIMARY KEY (nomor));
+Query OK, 0 rows affected (0.017 sec)
+
+MariaDB [tokosib5]> SHOW TABLES;
++--------------------+
+| Tables_in_tokosib5 |
++--------------------+
+| jenis_produk       |
+| produk             |
+| vendor             |
++--------------------+
+3 rows in set (0.002 sec)
+
+MariaDB [tokosib5]> DESC produk;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| id      | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama    | varchar(30) | NO   | UNI | NULL    |                |
+| harga   | double      | NO   |     | NULL    |                |
+| stok    | int(11)     | NO   |     | NULL    |                |
+| idjenis | int(11)     | NO   |     | NULL    |                |
+| foto    | varchar(30) | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+6 rows in set (0.009 sec)
+
+MariaDB [tokosib5]> CREATE TABLE pembelian(
+    -> tanggal DATE,
+    -> nomor VARCHAR(10),
+    -> produk_id INT,
+    -> jumblah INT,
+    -> harga INT,
+    -> vendor_id VARCHAR(10),
+    -> FOREIGN KEY (produk_id) REFERENCES produk(id),
+    -> FOREIGN KEY (vendor_id) REFERENCES vendor(nomor));
+Query OK, 0 rows affected (0.022 sec)
+
+MariaDB [tokosib5]> SHOW TABLES;
++--------------------+
+| Tables_in_tokosib5 |
++--------------------+
+| jenis_produk       |
+| pembelian          |
+| produk             |
+| vendor             |
++--------------------+
+4 rows in set (0.002 sec)
+
+MariaDB [tokosib5]> INSERT INTO vendor (nomor, nama, kota, kontak) VALUES
+    -> ('1','Wabida','Wakatobi','081239300965'),
+    -> ('2','Masnia','Kendari','0812121212'),
+    -> ('3','Wa Eli','Bau-Bau','0813131313'),
+    -> ('4','Mirnawati','Makassar','0814141414');
+Query OK, 4 rows affected (0.010 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [tokosib5]> SELECT * FROM vendor;
++-------+-----------+----------+--------------+
+| nomor | nama      | kota     | kontak       |
++-------+-----------+----------+--------------+
+| 1     | Wabida    | Wakatobi | 081239300965 |
+| 2     | Masnia    | Kendari  | 0812121212   |
+| 3     | Wa Eli    | Bau-Bau  | 0813131313   |
+| 4     | Mirnawati | Makassar | 0814141414   |
++-------+-----------+----------+--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tokosib5]> INSERT INTO pembelian (tanggal, nomor, produk_id, jumblah, harga, vendor_id) VALUES
+    -> ('2023-10-06','001', 1, 10, 1000, '1');
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [tokosib5]> SELECT * FROM pembelian;
++------------+-------+-----------+---------+-------+-----------+
+| tanggal    | nomor | produk_id | jumblah | harga | vendor_id |
++------------+-------+-----------+---------+-------+-----------+
+| 2023-10-06 | 001   |         1 |      10 |  1000 | 1         |
++------------+-------+-----------+---------+-------+-----------+
+1 row in set (0.001 sec)
+
+MariaDB [tokosib5]> INSERT INTO vendor (nomor, nama, kota, kontak) VALUES
+    -> ('5','Tati','Maumere','081515151');
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [tokosib5]> SELECT * FROM vendor;
++-------+-----------+----------+--------------+
+| nomor | nama      | kota     | kontak       |
++-------+-----------+----------+--------------+
+| 1     | Wabida    | Wakatobi | 081239300965 |
+| 2     | Masnia    | Kendari  | 0812121212   |
+| 3     | Wa Eli    | Bau-Bau  | 0813131313   |
+| 4     | Mirnawati | Makassar | 0814141414   |
+| 5     | Tati      | Maumere  | 081515151    |
++-------+-----------+----------+--------------+
+5 rows in set (0.001 sec)
+
+MariaDB [tokosib5]> INSERT INTO pembelian (tanggal, nomor, produk_id, jumblah, harga, vendor_id) VALUES
+    -> ('2023-10-07','002', 3, 5, 2000, '2'),
+    -> ('2023-10-08','003', 4, 3, 1500, '3'),
+    -> ('2023-10-09','004', 5, 8, 1800, '4'),
+    -> ('2023-10-10','005', 6, 2, 1200, '5');
+Query OK, 4 rows affected (0.004 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [tokosib5]> SELECT * FROM pembelian;
++------------+-------+-----------+---------+-------+-----------+
+| tanggal    | nomor | produk_id | jumblah | harga | vendor_id |
++------------+-------+-----------+---------+-------+-----------+
+| 2023-10-06 | 001   |         1 |      10 |  1000 | 1         |
+| 2023-10-07 | 002   |         3 |       5 |  2000 | 2         |
+| 2023-10-08 | 003   |         4 |       3 |  1500 | 3         |
+| 2023-10-09 | 004   |         5 |       8 |  1800 | 4         |
+| 2023-10-10 | 005   |         6 |       2 |  1200 | 5         |
++------------+-------+-----------+---------+-------+-----------+
+5 rows in set (0.001 sec)
