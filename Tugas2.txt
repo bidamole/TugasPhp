@@ -176,4 +176,3 @@ MariaDB [tokosib5]> DESC pembelian;
 | harga     | int(11)     | YES  |     | NULL    |       |
 | vendor_id | varchar(10) | YES  | MUL | NULL    |       |
 +-----------+-------------+------+-----+---------+-------+
-6 rows in set (0.012 sec)
