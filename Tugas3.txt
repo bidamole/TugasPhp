@@ -1,0 +1,449 @@
+Microsoft Windows [Version 10.0.22621.2361]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Asus X441M>cd /xampp/mysql/bin
+
+C:\xampp\mysql\bin>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| db_kependudukan    |
+| dbpegawai          |
+| dbpenduduk         |
+| dbportalci         |
+| dbpos              |
+| information_schema |
+| mefqy4unq2         |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| praktikum          |
+| test               |
+| tokosib5           |
++--------------------+
+13 rows in set (0.050 sec)
+
+MariaDB [(none)]> USE dbpos;
+Database changed
+MariaDB [dbpos]> SHOW TABLES;
++-----------------+
+| Tables_in_dbpos |
++-----------------+
+| jenis_produk    |
+| kartu           |
+| pelanggan       |
+| pembayaran      |
+| pesanan         |
+| produk          |
++-----------------+
+6 rows in set (0.002 sec)
+
+//Mengisi data table pelanggan minimal 6 data
+
+MariaDB [dbpos]> INSERT INTO pelanggan (kode, nama, jk, tmp_lahir, tgl_lahir, email, kartu_id) VALUES
+    -> ('C005','Sania','L','Jakarta','1885-07-01','Sania@gmail.com', 1),
+    -> ('C006','Tanto','L','Bandung','1992-07-01','Tanto@gmail.com', 3),
+    -> ('C007','Hasi','L','Makassar','1994-07-01','Hasi@gmail.com', 4),
+    -> ('C008','Pami','L','Bau-Bau','1995-07-01','Pami@gmail.com', 2),
+    -> ('C009','Tati','P','Maumere','2008-07-26','Tati@gmail.com', 4),
+    -> ('C010','Alyah','P','Wakatobi','2010-07-01','Alyah@gmail.com', 1);
+Query OK, 6 rows affected (0.017 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpos]> SELECT * FROM pelanggan;
++----+------+-----------+------+-----------+------------+----------------------+----------+
+| id | kode | nama      | jk   | tmp_lahir | tgl_lahir  | email                | kartu_id |
++----+------+-----------+------+-----------+------------+----------------------+----------+
+|  1 | C001 | Wa Bida   | P    | Mole      | 2002-07-28 | Wabida9641@gmail.com |        1 |
+|  2 | C002 | Wa Jumi   | P    | Mole      | 1887-07-01 | Masnia@gmail.com     |        2 |
+|  3 | C003 | Nizam     | L    | Mole      | 2015-06-27 | Nizam@gmail.com      |        3 |
+|  4 | C004 | Jamaludin | L    | Mole      | 1998-01-01 | Jamaludin@gmail.com  |        4 |
+|  6 | C005 | Sania     | L    | Jakarta   | 1885-07-01 | Sania@gmail.com      |        1 |
+|  7 | C006 | Tanto     | L    | Bandung   | 1992-07-01 | Tanto@gmail.com      |        3 |
+|  8 | C007 | Hasi      | L    | Makassar  | 1994-07-01 | Hasi@gmail.com       |        4 |
+|  9 | C008 | Pami      | L    | Bau-Bau   | 1995-07-01 | Pami@gmail.com       |        2 |
+| 10 | C009 | Tati      | P    | Maumere   | 2008-07-26 | Tati@gmail.com       |        4 |
+| 11 | C010 | Alyah     | P    | Wakatobi  | 2010-07-01 | Alyah@gmail.com      |        1 |
++----+------+-----------+------+-----------+------------+----------------------+----------+
+10 rows in set (0.001 sec)
+
+//Mengisi data table produk minimal 5 data
+
+MariaDB [dbpos]> INSERT INTO produk (kode, nama, harga_beli, harga_jual, stok, min_stok, jenis_produk_id) VALUES
+    -> ('F001','Lemari Kayu', 200000, 300000, 6, 3, 2),
+    -> ('F002','Sofa', 6500000, 8000000, 12, 2, 2),
+    -> ('L001','Leptop Asus', 5000000, 3000000, 5, 1, 1),
+    -> ('H001','Handphone Samsung', 2000000, 1000000, 7, 3, 1),
+    -> ('A001','Ayam Geprek', 12000, 10000, 7, 2, 3);
+Query OK, 5 rows affected (0.005 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpos]> SELECT * FROM produk;
++----+-------+-------------------+------------+------------+------+----------+-----------------+
+| id | kode  | nama              | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+-------+-------------------+------------+------------+------+----------+-----------------+
+|  1 | TV01  | Televisi 21 Inch  |    3500000 |    5040000 |    5 |        2 |               1 |
+|  2 | TV02  | Televisi 40 Inch  |    7000000 |    9600000 |    4 |        2 |               1 |
+|  3 | K001  | Kulkas 2 Pintu    |    3500000 |    4600000 |    6 |        2 |               1 |
+|  4 | M001  | Meja Makan        |     500000 |     600000 |    4 |        3 |               2 |
+|  5 | TK001 | Teh Kotak         |       3000 |       3500 |    6 |       10 |               4 |
+|  6 | F001  | Lemari Kayu       |     200000 |     300000 |    6 |        3 |               2 |
+|  7 | F002  | Sofa              |    6500000 |    8000000 |   12 |        2 |               2 |
+|  8 | L001  | Leptop Asus       |    5000000 |    3000000 |    5 |        1 |               1 |
+|  9 | H001  | Handphone Samsung |    2000000 |    1000000 |    7 |        3 |               1 |
+| 10 | A001  | Ayam Geprek       |      12000 |      10000 |    7 |        2 |               3 |
++----+-------+-------------------+------------+------------+------+----------+-----------------+
+10 rows in set (0.001 sec)
+
+MariaDB [dbpos]> DESC produk;
++-----------------+-------------+------+-----+---------+----------------+
+| Field           | Type        | Null | Key | Default | Extra          |
++-----------------+-------------+------+-----+---------+----------------+
+| id              | int(11)     | NO   | PRI | NULL    | auto_increment |
+| kode            | varchar(10) | YES  |     | NULL    |                |
+| nama            | varchar(45) | YES  |     | NULL    |                |
+| harga_beli      | double      | YES  |     | NULL    |                |
+| harga_jual      | double      | YES  |     | NULL    |                |
+| stok            | int(11)     | YES  |     | NULL    |                |
+| min_stok        | int(11)     | YES  |     | NULL    |                |
+| jenis_produk_id | int(11)     | NO   |     | NULL    |                |
++-----------------+-------------+------+-----+---------+----------------+
+8 rows in set (0.008 sec)
+
+//Membuat table pesanan_items
+
+MariaDB [dbpos]> CREATE TABLE pesanan_items(
+    -> id int not null auto_increment primary key,
+    -> qty int,
+    -> harga double,
+    -> produk_id int not null REFERENCES produk(id),
+    -> pesanan_id int not null REFERENCES pesanan(id));
+Query OK, 0 rows affected (0.045 sec)
+
+MariaDB [dbpos]> DESC pesanan_items;
++------------+---------+------+-----+---------+----------------+
+| Field      | Type    | Null | Key | Default | Extra          |
++------------+---------+------+-----+---------+----------------+
+| id         | int(11) | NO   | PRI | NULL    | auto_increment |
+| qty        | int(11) | YES  |     | NULL    |                |
+| harga      | double  | YES  |     | NULL    |                |
+| produk_id  | int(11) | NO   |     | NULL    |                |
+| pesanan_id | int(11) | NO   |     | NULL    |                |
++------------+---------+------+-----+---------+----------------+
+5 rows in set (0.012 sec)
+
+//Membuat table vendor
+
+MariaDB [dbpos]> CREATE TABLE vendor(
+    -> id int not null auto_increment primary key,
+    -> nomor varchar(4),
+    -> nama varchar(40),
+    -> kota varchar(30),
+    -> kontak varchar(30));
+Query OK, 0 rows affected (0.023 sec)
+
+MariaDB [dbpos]> DESC vendor;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nomor  | varchar(4)  | YES  |     | NULL    |                |
+| nama   | varchar(40) | YES  |     | NULL    |                |
+| kota   | varchar(30) | YES  |     | NULL    |                |
+| kontak | varchar(30) | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+5 rows in set (0.012 sec)
+
+//Membuat table pembelian
+
+MariaDB [dbpos]> CREATE TABLE pembelian(
+    -> id int not null auto_increment primary key,
+    -> tanggal date,
+    -> nomor varchar(10),
+    -> jumlah int,
+    -> harga double,
+    -> produk_id int not null REFERENCES produk(id),
+    -> vendor_id int not null REFERENCES vendor(id));
+Query OK, 0 rows affected (0.013 sec)
+
+MariaDB [dbpos]> DESC pembelian;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| tanggal   | date        | YES  |     | NULL    |                |
+| nomor     | varchar(10) | YES  |     | NULL    |                |
+| jumlah    | int(11)     | YES  |     | NULL    |                |
+| harga     | double      | YES  |     | NULL    |                |
+| produk_id | int(11)     | NO   |     | NULL    |                |
+| vendor_id | int(11)     | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+7 rows in set (0.013 sec)
+
+MariaDB [dbpos]> SHOW TABLES;
++-----------------+
+| Tables_in_dbpos |
++-----------------+
+| jenis_produk    |
+| kartu           |
+| pelanggan       |
+| pembayaran      |
+| pembelian       |
+| pesanan         |
+| pesanan_items   |
+| produk          |
+| vendor          |
++-----------------+
+9 rows in set (0.001 sec)
+
+//Tampilkan data produk yang stoknya 6 dan 5
+
+MariaDB [dbpos]> SELECT * FROM produk WHERE stok=6 OR stok=5;
++----+-------+------------------+------------+------------+------+----------+-----------------+
+| id | kode  | nama             | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+-------+------------------+------------+------------+------+----------+-----------------+
+|  1 | TV01  | Televisi 21 Inch |    3500000 |    5040000 |    5 |        2 |               1 |
+|  3 | K001  | Kulkas 2 Pintu   |    3500000 |    4600000 |    6 |        2 |               1 |
+|  5 | TK001 | Teh Kotak        |       3000 |       3500 |    6 |       10 |               4 |
+|  6 | F001  | Lemari Kayu      |     200000 |     300000 |    6 |        3 |               2 |
+|  8 | L001  | Leptop Asus      |    5000000 |    3000000 |    5 |        1 |               1 |
++----+-------+------------------+------------+------------+------+----------+-----------------+
+5 rows in set (0.001 sec)
+
+//Tampilkan data produk yang harga jualnya kurang dari 5 juta tetapi lebih dari 500 ribu
+
+MariaDB [dbpos]> SELECT * FROM produk WHERE harga_jual < 5000000 AND harga_jual > 500000;
++----+------+-------------------+------------+------------+------+----------+-----------------+
+| id | kode | nama              | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+------+-------------------+------------+------------+------+----------+-----------------+
+|  3 | K001 | Kulkas 2 Pintu    |    3500000 |    4600000 |    6 |        2 |               1 |
+|  4 | M001 | Meja Makan        |     500000 |     600000 |    4 |        3 |               2 |
+|  8 | L001 | Leptop Asus       |    5000000 |    3000000 |    5 |        1 |               1 |
+|  9 | H001 | Handphone Samsung |    2000000 |    1000000 |    7 |        3 |               1 |
++----+------+-------------------+------------+------------+------+----------+-----------------+
+4 rows in set (0.003 sec)
+
+//Tampilkan data produk yang harus segera ditambah stoknya
+
+MariaDB [dbpos]> SELECT * FROM produk WHERE min_stok>stok;
++----+-------+-----------+------------+------------+------+----------+-----------------+
+| id | kode  | nama      | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+-------+-----------+------------+------------+------+----------+-----------------+
+|  5 | TK001 | Teh Kotak |       3000 |       3500 |    6 |       10 |               4 |
++----+-------+-----------+------------+------------+------+----------+-----------------+
+1 row in set (0.001 sec)
+
+//Tampilkan data pelanggan mulai dari yang paling muda
+
+MariaDB [dbpos]> SELECT * FROM pelanggan ORDER BY tgl_lahir DESC;
++----+------+-----------+------+-----------+------------+----------------------+----------+
+| id | kode | nama      | jk   | tmp_lahir | tgl_lahir  | email
+       | kartu_id |
++----+------+-----------+------+-----------+------------+----------------------+----------+
+|  3 | C003 | Nizam     | L    | Mole      | 2015-06-27 | Nizam@gmail.com      |        3 |
+| 11 | C010 | Alyah     | P    | Wakatobi  | 2010-07-01 | Alyah@gmail.com      |        1 |
+| 10 | C009 | Tati      | P    | Maumere   | 2008-07-26 | Tati@gmail.com       |        4 |
+|  1 | C001 | Wa Bida   | P    | Mole      | 2002-07-28 | Wabida9641@gmail.com |        1 |
+|  4 | C004 | Jamaludin | L    | Mole      | 1998-01-01 | Jamaludin@gmail.com  |        4 |
+|  9 | C008 | Pami      | L    | Bau-Bau   | 1995-07-01 | Pami@gmail.com       |        2 |
+|  8 | C007 | Hasi      | L    | Makassar  | 1994-07-01 | Hasi@gmail.com       |        4 |
+|  7 | C006 | Tanto     | L    | Bandung   | 1992-07-01 | Tanto@gmail.com      |        3 |
+|  2 | C002 | Wa Jumi   | P    | Mole      | 1887-07-01 | Masnia@gmail.com     |        2 |
+|  6 | C005 | Sania     | L    | Jakarta   | 1885-07-01 | Sania@gmail.com      |        1 |
++----+------+-----------+------+-----------+------------+----------------------+----------+
+10 rows in set (0.001 sec)
+
+//Tampilkan data pelanggan yang lahirnya di Mole dan gendernya Laki-laki
+
+MariaDB [dbpos]> SELECT * FROM pelanggan WHERE tmp_lahir='Mole' AND jk='L';
++----+------+-----------+------+-----------+------------+---------------------+----------+
+| id | kode | nama      | jk   | tmp_lahir | tgl_lahir  | email
+      | kartu_id |
++----+------+-----------+------+-----------+------------+---------------------+----------+
+|  3 | C003 | Nizam     | L    | Mole      | 2015-06-27 | Nizam@gmail.com     |        3 |
+|  4 | C004 | Jamaludin | L    | Mole      | 1998-01-01 | Jamaludin@gmail.com |        4 |
++----+------+-----------+------+-----------+------------+---------------------+----------+
+2 rows in set (0.002 sec)
+
+//Tampilkan data pelanggan yang ID nya 2, 4 dan 6
+
+MariaDB [dbpos]> SELECT * FROM pelanggan WHERE id IN(2,4,6);
++----+------+-----------+------+-----------+------------+---------------------+----------+
+| id | kode | nama      | jk   | tmp_lahir | tgl_lahir  | email
+      | kartu_id |
++----+------+-----------+------+-----------+------------+---------------------+----------+
+|  2 | C002 | Wa Jumi   | P    | Mole      | 1887-07-01 | Masnia@gmail.com    |        2 |
+|  4 | C004 | Jamaludin | L    | Mole      | 1998-01-01 | Jamaludin@gmail.com |        4 |
+|  6 | C005 | Sania     | L    | Jakarta   | 1885-07-01 | Sania@gmail.com     |        1 |
++----+------+-----------+------+-----------+------------+---------------------+----------+
+3 rows in set (0.009 sec)
+
+//Tampilkan data produk yang harganya antara 500 ribu sampai 6 juta
+
+MariaDB [dbpos]> SELECT * FROM produk WHERE harga_jual>=500000 AND harga_jual<=6000000;
++----+------+-------------------+------------+------------+------+----------+-----------------+
+| id | kode | nama              | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+------+-------------------+------------+------------+------+----------+-----------------+
+|  1 | TV01 | Televisi 21 Inch  |    3500000 |    5040000 |    5 |        2 |               1 |
+|  3 | K001 | Kulkas 2 Pintu    |    3500000 |    4600000 |    6 |        2 |               1 |
+|  4 | M001 | Meja Makan        |     500000 |     600000 |    4 |        3 |               2 |
+|  8 | L001 | Leptop Asus       |    5000000 |    3000000 |    5 |        1 |               1 |
+|  9 | H001 | Handphone Samsung |    2000000 |    1000000 |    7 |        3 |               1 |
++----+------+-------------------+------------+------------+------+----------+-----------------+
+5 rows in set (0.001 sec)
+
+//Tampilkan produk yang kode awalnya huruf K dan huruf M
+
+MariaDB [dbpos]> SELECT * FROM produk WHERE kode LIKE 'K%' OR kode LIKE
+'M%';
++----+------+----------------+------------+------------+------+----------+-----------------+
+| id | kode | nama           | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+------+----------------+------------+------------+------+----------+-----------------+
+|  3 | K001 | Kulkas 2 Pintu |    3500000 |    4600000 |    6 |        2 |               1 |
+|  4 | M001 | Meja Makan     |     500000 |     600000 |    4 |        3 |               2 |
++----+------+----------------+------------+------------+------+----------+-----------------+
+2 rows in set (0.002 sec)
+
+//Tampilkan produk yang kode awalnya bukan huruf  M
+
+MariaDB [dbpos]> SELECT * FROM produk WHERE kode NOT LIKE 'M%';
++----+-------+-------------------+------------+------------+------+----------+-----------------+
+| id | kode  | nama              | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+-------+-------------------+------------+------------+------+----------+-----------------+
+|  1 | TV01  | Televisi 21 Inch  |    3500000 |    5040000 |    5 |        2 |               1 |
+|  2 | TV02  | Televisi 40 Inch  |    7000000 |    9600000 |    4 |        2 |               1 |
+|  3 | K001  | Kulkas 2 Pintu    |    3500000 |    4600000 |    6 |        2 |               1 |
+|  5 | TK001 | Teh Kotak         |       3000 |       3500 |    6 |       10 |               4 |
+|  6 | F001  | Lemari Kayu       |     200000 |     300000 |    6 |        3 |               2 |
+|  7 | F002  | Sofa              |    6500000 |    8000000 |   12 |
+   2 |               2 |
+|  8 | L001  | Leptop Asus       |    5000000 |    3000000 |    5 |        1 |               1 |
+|  9 | H001  | Handphone Samsung |    2000000 |    1000000 |    7 |        3 |               1 |
+| 10 | A001  | Ayam Geprek       |      12000 |      10000 |    7 |        2 |               3 |
++----+-------+-------------------+------------+------------+------+----------+-----------------+
+9 rows in set (0.001 sec)
+
+//Tampilkan produk-produk televisi
+
+MariaDB [dbpos]> SELECT * FROM produk WHERE nama LIKE '%Televisi%';
++----+------+------------------+------------+------------+------+----------+-----------------+
+| id | kode | nama             | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+------+------------------+------------+------------+------+----------+-----------------+
+|  1 | TV01 | Televisi 21 Inch |    3500000 |    5040000 |    5 |        2 |               1 |
+|  2 | TV02 | Televisi 40 Inch |    7000000 |    9600000 |    4 |        2 |               1 |
++----+------+------------------+------------+------------+------+----------+-----------------+
+2 rows in set (0.002 sec)
+
+//Tampilkan pelanggan mengandung huruf 'SA'
+
+MariaDB [dbpos]> SELECT * FROM pelanggan WHERE nama LIKE '%Sa%';
++----+------+-------+------+-----------+------------+-----------------+----------+
+| id | kode | nama  | jk   | tmp_lahir | tgl_lahir  | email           | kartu_id |
++----+------+-------+------+-----------+------------+-----------------+----------+
+|  6 | C005 | Sania | L    | Jakarta   | 1885-07-01 | Sania@gmail.com |        1 |
++----+------+-------+------+-----------+------------+-----------------+----------+
+1 row in set (0.001 sec)
+
+//Tampilkan pelanggan yang lahirnya bukan di Jakarta dan mengandung huruf ‘mo‘
+
+MariaDB [dbpos]> SELECT * FROM pelanggan WHERE tmp_lahir != 'Jakarta' AND tmp_lahir LIKE '%Mo%';
++----+------+-----------+------+-----------+------------+----------------------+----------+
+| id | kode | nama      | jk   | tmp_lahir | tgl_lahir  | email
+       | kartu_id |
++----+------+-----------+------+-----------+------------+----------------------+----------+
+|  1 | C001 | Wa Bida   | P    | Mole      | 2002-07-28 | Wabida9641@gmail.com |        1 |
+|  2 | C002 | Wa Jumi   | P    | Mole      | 1887-07-01 | Masnia@gmail.com     |        2 |
+|  3 | C003 | Nizam     | L    | Mole      | 2015-06-27 | Nizam@gmail.com      |        3 |
+|  4 | C004 | Jamaludin | L    | Mole      | 1998-01-01 | Jamaludin@gmail.com  |        4 |
++----+------+-----------+------+-----------+------------+----------------------+----------+
+4 rows in set (0.002 sec)
+
+//Tampilkan pelanggan yang karakter huruf ke – 2 nya adalah A
+
+MariaDB [dbpos]> SELECT * FROM pelanggan WHERE nama LIKE '_A%';
++----+------+-----------+------+-----------+------------+----------------------+----------+
+| id | kode | nama      | jk   | tmp_lahir | tgl_lahir  | email
+       | kartu_id |
++----+------+-----------+------+-----------+------------+----------------------+----------+
+|  1 | C001 | Wa Bida   | P    | Mole      | 2002-07-28 | Wabida9641@gmail.com |        1 |
+|  2 | C002 | Wa Jumi   | P    | Mole      | 1887-07-01 | Masnia@gmail.com     |        2 |
+|  4 | C004 | Jamaludin | L    | Mole      | 1998-01-01 | Jamaludin@gmail.com  |        4 |
+|  6 | C005 | Sania     | L    | Jakarta   | 1885-07-01 | Sania@gmail.com      |        1 |
+|  7 | C006 | Tanto     | L    | Bandung   | 1992-07-01 | Tanto@gmail.com      |        3 |
+|  8 | C007 | Hasi      | L    | Makassar  | 1994-07-01 | Hasi@gmail.com       |        4 |
+|  9 | C008 | Pami      | L    | Bau-Bau   | 1995-07-01 | Pami@gmail.com       |        2 |
+| 10 | C009 | Tati      | P    | Maumere   | 2008-07-26 | Tati@gmail.com       |        4 |
++----+------+-----------+------+-----------+------------+----------------------+----------+
+8 rows in set (0.001 sec)
+
+//Tampilkan 2 data produk termahal
+
+MariaDB [dbpos]> SELECT * FROM produk ORDER BY harga_beli DESC LIMIT 2;
++----+------+------------------+------------+------------+------+----------+-----------------+
+| id | kode | nama             | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+------+------------------+------------+------------+------+----------+-----------------+
+|  2 | TV02 | Televisi 40 Inch |    7000000 |    9600000 |    4 |        2 |               1 |
+|  7 | F002 | Sofa             |    6500000 |    8000000 |   12 |        2 |               2 |
++----+------+------------------+------------+------------+------+----------+-----------------+
+2 rows in set (0.001 sec)
+
+//Tampilkan produk yang paling murah
+
+MariaDB [dbpos]> SELECT * FROM produk ORDER BY harga_beli ASC LIMIT 1;
++----+-------+-----------+------------+------------+------+----------+-----------------+
+| id | kode  | nama      | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+-------+-----------+------------+------------+------+----------+-----------------+
+|  5 | TK001 | Teh Kotak |       3000 |       3500 |    6 |       10 |               4 |
++----+-------+-----------+------------+------------+------+----------+-----------------+
+1 row in set (0.001 sec)
+
+//Tampilkan produk yang stoknya paling banyak
+
+MariaDB [dbpos]> SELECT * FROM produk ORDER BY stok DESC LIMIT 1;
++----+------+------+------------+------------+------+----------+-----------------+
+| id | kode | nama | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+------+------+------------+------------+------+----------+-----------------+
+|  7 | F002 | Sofa |    6500000 |    8000000 |   12 |        2 |               2 |
++----+------+------+------------+------------+------+----------+-----------------+
+1 row in set (0.002 sec)
+
+//Tampilkan dua produk yang stoknya paling sedikit
+
+MariaDB [dbpos]> SELECT * FROM produk ORDER BY stok ASC LIMIT 2;
++----+------+------------------+------------+------------+------+----------+-----------------+
+| id | kode | nama             | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+------+------------------+------------+------------+------+----------+-----------------+
+|  2 | TV02 | Televisi 40 Inch |    7000000 |    9600000 |    4 |        2 |               1 |
+|  4 | M001 | Meja Makan       |     500000 |     600000 |    4 |        3 |               2 |
++----+------+------------------+------------+------------+------+----------+-----------------+
+2 rows in set (0.002 sec)
+
+//Tampilkan pelanggan yang paling muda
+
+MariaDB [dbpos]> SELECT * FROM pelanggan ORDER BY tgl_lahir DESC LIMIT 1;
++----+------+-------+------+-----------+------------+-----------------+----------+
+| id | kode | nama  | jk   | tmp_lahir | tgl_lahir  | email           | kartu_id |
++----+------+-------+------+-----------+------------+-----------------+----------+
+|  3 | C003 | Nizam | L    | Mole      | 2015-06-27 | Nizam@gmail.com |        3 |
++----+------+-------+------+-----------+------------+-----------------+----------+
+1 row in set (0.001 sec)
+
+//Tampilkan pelanggan yang paling tua
+
+MariaDB [dbpos]> SELECT * FROM pelanggan ORDER BY tgl_lahir ASC LIMIT 1;
++----+------+-------+------+-----------+------------+-----------------+----------+
+| id | kode | nama  | jk   | tmp_lahir | tgl_lahir  | email           | kartu_id |
++----+------+-------+------+-----------+------------+-----------------+----------+
+|  6 | C005 | Sania | L    | Jakarta   | 1885-07-01 | Sania@gmail.com |        1 |
++----+------+-------+------+-----------+------------+-----------------+----------+
+1 row in set (0.002 sec)
