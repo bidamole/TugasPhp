@@ -1,0 +1,137 @@
+Microsoft Windows [Version 10.0.22621.2428]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Asus X441M>cd /xampp/mysql/bin
+
+C:\xampp\mysql\bin>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 14
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| db_kependudukan    |
+| db_sib5            |
+| dbpegawai          |
+| dbpenduduk         |
+| dbpenjualan        |
+| dbportalci         |
+| dbpos              |
+| information_schema |
+| mefqy4unq2         |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| praktikum          |
+| test               |
+| tokosib5           |
++--------------------+
+15 rows in set (0.002 sec)
+
+MariaDB [(none)]> USE dbpenjualan;
+Database changed
+MariaDB [dbpenjualan]> SHOW TABLES;
++-----------------------+
+| Tables_in_dbpenjualan |
++-----------------------+
+| alamat                |
+| anggota               |
+| detail_pemesanan      |
+| kartu_diskon          |
+| kategori              |
+| metode                |
+| pembayaran            |
+| pemesanan             |
+| produk                |
++-----------------------+
+9 rows in set (0.009 sec)
+
+MariaDB [dbpenjualan]> DESC alamat;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| id     | int(11)     | NO   | PRI | NULL    | auto_increment |
+| alamat | varchar(45) | NO   |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+2 rows in set (0.038 sec)
+
+MariaDB [dbpenjualan]> DESC anggota;
++-----------------+-------------+------+-----+---------+----------------+
+| Field           | Type        | Null | Key | Default | Extra          |
++-----------------+-------------+------+-----+---------+----------------+
+| id              | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama_anggota    | varchar(45) | NO   |     | NULL    |                |
+| kartu_diskon_id | int(11)     | NO   | MUL | NULL    |                |
+| alamat_id       | int(11)     | NO   | MUL | NULL    |                |
++-----------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.014 sec)
+
+MariaDB [dbpenjualan]> DESC detail_pemesanan;
++--------------------+---------+------+-----+---------+----------------+
+| Field              | Type    | Null | Key | Default | Extra          |
++--------------------+---------+------+-----+---------+----------------+
+| id                 | int(11) | NO   | PRI | NULL    | auto_increment |
+| jumlah             | int(11) | NO   |     | NULL    |                |
+| pemesanan_id       | int(11) | NO   | MUL | NULL    |                |
+| produk_kode_produk | int(11) | NO   | MUL | NULL    |                |
++--------------------+---------+------+-----+---------+----------------+
+4 rows in set (0.013 sec)
+
+MariaDB [dbpenjualan]> DESC kartu_diskon;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| id           | int(11)     | NO   | PRI | NULL    | auto_increment |
+| kartu_diskon | varchar(45) | NO   |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+2 rows in set (0.019 sec)
+
+MariaDB [dbpenjualan]> DESC kategori;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| id       | int(11)     | NO   | PRI | NULL    | auto_increment |
+| kategori | varchar(45) | NO   |     | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+2 rows in set (0.013 sec)
+
+MariaDB [dbpenjualan]> DESC pembayaran;
++----------------+---------+------+-----+---------+-------+
+| Field          | Type    | Null | Key | Default | Extra |
++----------------+---------+------+-----+---------+-------+
+| id             | int(11) | NO   | PRI | NULL    |       |
+| tgl_pembayaran | date    | NO   |     | NULL    |       |
+| total          | int(11) | NO   |     | NULL    |       |
+| pemesanan_id   | int(11) | NO   | MUL | NULL    |       |
+| metode_id      | int(11) | NO   | MUL | NULL    |       |
++----------------+---------+------+-----+---------+-------+
+5 rows in set (0.014 sec)
+
+MariaDB [dbpenjualan]> DESC pemesanan;
++---------------+---------+------+-----+---------+----------------+
+| Field         | Type    | Null | Key | Default | Extra          |
++---------------+---------+------+-----+---------+----------------+
+| id            | int(11) | NO   | PRI | NULL    | auto_increment |
+| tgl_pemesanan | date    | NO   |     | NULL    |                |
+| anggota_id    | int(11) | NO   | MUL | NULL    |                |
++---------------+---------+------+-----+---------+----------------+
+3 rows in set (0.014 sec)
+
+MariaDB [dbpenjualan]> DESC produk;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| kode_produk  | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama_produk  | varchar(45) | NO   |     | NULL    |                |
+| harga_produk | int(11)     | NO   |     | NULL    |                |
+| stok         | int(11)     | NO   |     | NULL    |                |
+| kategori_id  | int(11)     | NO   | MUL | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.014 sec)

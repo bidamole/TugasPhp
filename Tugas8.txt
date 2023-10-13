@@ -1,0 +1,85 @@
+MariaDB [dbpenjualan]> USE dbpos;
+Database changed
+MariaDB [dbpos]> SHOW TABLES;
++-----------------+
+| Tables_in_dbpos |
++-----------------+
+| jenis_produk    |
+| kartu           |
+| pelanggan       |
+| pembayaran      |
+| pembelian       |
+| pesanan         |
+| pesanan_items   |
+| produk          |
+| vendor          |
++-----------------+
+9 rows in set (0.003 sec)
+
+MariaDB [dbpos]> SELECT pesanan.id, pesanan.tanggal, pesanan.total, pelanggan.kode,
+    -> pelanggan.nama, kartu.nama AS nama_kartu, kartu.diskon
+    -> FROM pesanan INNER JOIN pelanggan ON pesanan.pelanggan_id = pelanggan.id
+    -> INNER JOIN kartu ON pelanggan.kartu_id = kartu.id;
++----+------------+----------+------+-----------+---------------+--------+
+| id | tanggal    | total    | kode | nama      | nama_kartu    | diskon |
++----+------------+----------+------+-----------+---------------+--------+
+|  1 | 2015-11-04 |  9720000 | C001 | Wa Bida   | Gold Utama    |   0.05 |
+|  3 | 2015-11-04 |        0 | C005 | Sania     | Gold Utama    |   0.05 |
+| 12 | 2023-08-06 |       40 | C001 | Wa Bida   | Gold Utama    |   0.05 |
+|  6 | 2015-11-04 |        0 | C002 | Wa Jumi   | Platinum Jaya |    0.1 |
+| 10 | 2015-11-04 |        0 | C008 | Pami      | Platinum Jaya |    0.1 |
+|  2 | 2015-11-04 |    17500 | C003 | Nizam     | Silver        |  0.025 |
+|  4 | 2015-11-04 |        0 | C006 | Tanto     | Silver        |  0.025 |
+|  7 | 2015-11-04 |        0 | C003 | Nizam     | Silver        |  0.025 |
+| 11 | 2021-05-05 | 12000000 | C003 | Nizam     | Silver        |  0.025 |
+|  5 | 2015-11-04 |        0 | C009 | Tati      | Non Member    |      0 |
+|  8 | 2015-11-04 |        0 | C004 | Jamaludin | Non Member    |      0 |
+|  9 | 2015-11-04 |        0 | C007 | Hasi      | Non Member    |      0 |
++----+------------+----------+------+-----------+---------------+--------+
+12 rows in set (0.088 sec)
+
+MariaDB [dbpos]> SELECT pembelian.id, pembelian.tanggal, pembelian.nomor, pembelian.jumlah, pembelian.harga,
+    -> produk.nama, vendor.nama AS nama_vendor, vendor.kontak
+    -> FROM pembelian INNER JOIN produk ON pembelian.produk_id = produk.id
+    -> INNER JOIN vendor ON pembelian.vendor_id = vendor.id;
++----+------------+-------+--------+----------+-------------------+-------------+-------------+
+| id | tanggal    | nomor | jumlah | harga    | nama              | nama_vendor | kontak      |
++----+------------+-------+--------+----------+-------------------+-------------+-------------+
+|  1 | 2021-11-01 | PB001 |     15 |  4500000 | Lemari Kayu       | PT. ABC     | 08123456789 |
+|  2 | 2021-11-02 | PB002 |      7 |  3500000 | Sofa              | CV. XYZ     | 08567890123 |
+|  3 | 2021-11-03 | PB003 |      9 |  7000000 | Leptop Asus       | UD. KLM     | 08234567890 |
+|  4 | 2021-11-04 | PB004 |      2 |  1000000 | Handphone Samsung | PT. DEV     | 08123456789 |
+|  5 | 2021-11-05 | PBB05 |     20 | 15000000 | Ayam Geprek       | CV. GHI     | 08345213567 |
+|  6 | 2021-11-06 | PB006 |     12 |  9000000 | Televisi 21 Inch  | PT. ABC     | 08123456789 |
+|  7 | 2021-11-07 | PB007 |      3 |  1800000 | Televisi 40 Inch  | CV. XYZ     | 08567890123 |
+|  8 | 2021-11-08 | PB008 |      5 |  5000000 | Kulkas 2 Pintu    | UD. KLM     | 08234567890 |
+|  9 | 2021-11-09 | PB009 |      1 |  1500000 | Meja Makan        | PT. DEV     | 08123456789 |
+| 10 | 2021-11-10 | PB010 |      8 |  4000000 | Teh Kotak         | CV. GHI     | 08345213567 |
++----+------------+-------+--------+----------+-------------------+-------------+-------------+
+10 rows in set (0.002 sec)
+
+MariaDB [dbpos]> SELECT pesanan.id AS pesanan_id, pesanan.tanggal, pesanan.total,
+    -> pelanggan.nama AS nama_pelanggan,
+    -> produk.kode AS kode_produk, produk.nama AS nama_produk,
+    -> jenis_produk.nama AS nama_jenis_produk,
+    -> pesanan_items.qty, pesanan_items.harga
+    -> FROM pesanan
+    -> INNER JOIN pelanggan ON pesanan.pelanggan_id = pelanggan.id
+    -> INNER JOIN pesanan_items ON pesanan.id = pesanan_items.pesanan_id
+    -> INNER JOIN produk ON pesanan_items.produk_id = produk.id
+    -> INNER JOIN jenis_produk ON produk.jenis_produk_id = jenis_produk.id;
++------------+------------+---------+----------------+-------------+-------------------+-------------------+------+---------+
+| pesanan_id | tanggal    | total   | nama_pelanggan | kode_produk | nama_produk       | nama_jenis_produk | qty  | harga   |
++------------+------------+---------+----------------+-------------+-------------------+-------------------+------+---------+
+|          1 | 2015-11-04 | 9720000 | Wa Bida        | TV01        | Televisi 21 Inch  | Elektronik        |    2 | 1000000 |
+|          1 | 2015-11-04 | 9720000 | Wa Bida        | TV02        | Televisi 40 Inch  | Elektronik        |    3 | 1500000 |
+|          2 | 2015-11-04 |   17500 | Nizam          | K001        | Kulkas 2 Pintu    | Elektronik        |    1 | 5000000 |
+|          6 | 2015-11-04 |       0 | Wa Jumi        | L001        | Leptop Asus       | Elektronik        |    2 | 4000000 |
+|          6 | 2015-11-04 |       0 | Wa Jumi        | H001        | Handphone Samsung | Elektronik        |    1 | 1000000 |
+|          3 | 2015-11-04 |       0 | Sania          | M001        | Meja Makan        | Furniture         |    4 | 2000000 |
+|          4 | 2015-11-04 |       0 | Tanto          | F001        | Lemari Kayu       | Furniture         |    3 | 1000000 |
+|          5 | 2015-11-04 |       0 | Tati           | F002        | Sofa              | Furniture         |    5 | 6000000 |
+|          7 | 2015-11-04 |       0 | Nizam          | A001        | Ayam Geprek       | Makanan           |    4 | 5000000 |
+|          4 | 2015-11-04 |       0 | Tanto          | TK001       | Teh Kotak         | Minuman           |    2 | 3000000 |
++------------+------------+---------+----------------+-------------+-------------------+-------------------+------+---------+
+10 rows in set (0.001 sec)
