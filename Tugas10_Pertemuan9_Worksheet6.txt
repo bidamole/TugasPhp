@@ -1,0 +1,297 @@
+=====================SOAL 6.1 FUNCTION======================
+
+3. Buat fungsi kategori_harga dengan parameter yang menerima inputan argument tipe data double dan mengembalikan 
+   tipe data string kategori harga berdasarkan: 
+●	0 – 500rb : murah
+●	500rb – 3 juta : sedang
+●	3jt – 10 juta : mahal 
+●	> 10 juta : sangat mahal
+
+ANSWER:
+
+Setting environment for using XAMPP for Windows.
+Asus X441M@WABIDA c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 71
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| db_kependudukan    |
+| db_sib5            |
+| dbkoperasi         |
+| dbpegawai          |
+| dbpenduduk         |
+| dbpenjualan        |
+| dbportalci         |
+| dbpos              |
+| information_schema |
+| mefqy4unq2         |
+| mysql              |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| praktikum          |
+| test               |
+| tokosib5           |
++--------------------+
+17 rows in set (0.005 sec)
+
+MariaDB [(none)]> USE dbpos;
+Database changed
+MariaDB [dbpos]> DELIMITER $$
+MariaDB [dbpos]> CREATE FUNCTION kategori_harga(harga DOUBLE)
+    -> RETURNS VARCHAR(20)
+    -> BEGIN
+    -> DECLARE kategori VARCHAR(20);
+    -> IF harga <= 500000 THEN SET kategori = 'Murah';
+    -> ELSEIF harga <= 3000000 THEN SET kategori = 'Sedang';
+    -> ELSEIF harga <= 10000000 THEN SET kategori = 'Mahal';
+    -> ELSE
+    -> SET kategori = 'Sangat Mahal';
+    -> END IF;
+    -> RETURN kategori;
+    -> END $$
+Query OK, 0 rows affected (0.015 sec)
+
+MariaDB [dbpos]> DELIMITER ;
+MariaDB [dbpos]> SELECT * FROM pesanan_items;
++----+------+---------+-----------+------------+
+| id | qty  | harga   | produk_id | pesanan_id |
++----+------+---------+-----------+------------+
+|  1 |    2 | 1000000 |         1 |          1 |
+|  2 |    3 | 1500000 |         2 |          1 |
+|  3 |    1 | 5000000 |         3 |          2 |
+|  4 |    4 | 2000000 |         4 |          3 |
+|  5 |    2 | 3000000 |         5 |          4 |
+|  6 |    3 | 1000000 |         6 |          4 |
+|  7 |    5 | 6000000 |         7 |          5 |
+|  8 |    2 | 4000000 |         8 |          6 |
+|  9 |    1 | 1000000 |         9 |          6 |
+| 10 |    4 | 5000000 |        10 |          7 |
++----+------+---------+-----------+------------+
+10 rows in set (0.001 sec)
+
+MariaDB [dbpos]> SELECT id, qty, kategori_harga(harga) AS kategori_harga FROM pesanan_items;
++----+------+----------------+
+| id | qty  | kategori_harga |
++----+------+----------------+
+|  1 |    2 | Sedang         |
+|  2 |    3 | Sedang         |
+|  3 |    1 | Mahal          |
+|  4 |    4 | Sedang         |
+|  5 |    2 | Sedang         |
+|  6 |    3 | Sedang         |
+|  7 |    5 | Mahal          |
+|  8 |    2 | Mahal          |
+|  9 |    1 | Sedang         |
+| 10 |    4 | Mahal          |
++----+------+----------------+
+10 rows in set (0.014 sec)
+
+MariaDB [dbpos]> SELECT * FROM pembelian;
++----+------------+-------+--------+----------+-----------+-----------+
+| id | tanggal    | nomor | jumlah | harga    | produk_id | vendor_id |
++----+------------+-------+--------+----------+-----------+-----------+
+|  1 | 2021-11-01 | PB001 |     15 |  4500000 |         6 |         1 |
+|  2 | 2021-11-02 | PB002 |      7 |  3500000 |         7 |         2 |
+|  3 | 2021-11-03 | PB003 |      9 |  7000000 |         8 |         3 |
+|  4 | 2021-11-04 | PB004 |      2 |  1000000 |         9 |         4 |
+|  5 | 2021-11-05 | PBB05 |     20 | 15000000 |        10 |         5 |
+|  6 | 2021-11-06 | PB006 |     12 |  9000000 |         1 |         1 |
+|  7 | 2021-11-07 | PB007 |      3 |  1800000 |         2 |         2 |
+|  8 | 2021-11-08 | PB008 |      5 |  5000000 |         3 |         3 |
+|  9 | 2021-11-09 | PB009 |      1 |  1500000 |         4 |         4 |
+| 10 | 2021-11-10 | PB010 |      8 |  4000000 |         5 |         5 |
++----+------------+-------+--------+----------+-----------+-----------+
+10 rows in set (0.001 sec)
+
+MariaDB [dbpos]>  SELECT id, tanggal, nomor, jumlah, kategori_harga(harga) AS kategori_harga FROM pembelian;
++----+------------+-------+--------+----------------+
+| id | tanggal    | nomor | jumlah | kategori_harga |
++----+------------+-------+--------+----------------+
+|  1 | 2021-11-01 | PB001 |     15 | Mahal          |
+|  2 | 2021-11-02 | PB002 |      7 | Mahal          |
+|  3 | 2021-11-03 | PB003 |      9 | Mahal          |
+|  4 | 2021-11-04 | PB004 |      2 | Sedang         |
+|  5 | 2021-11-05 | PBB05 |     20 | Sangat Mahal   |
+|  6 | 2021-11-06 | PB006 |     12 | Mahal          |
+|  7 | 2021-11-07 | PB007 |      3 | Sedang         |
+|  8 | 2021-11-08 | PB008 |      5 | Mahal          |
+|  9 | 2021-11-09 | PB009 |      1 | Sedang         |
+| 10 | 2021-11-10 | PB010 |      8 | Mahal          |
++----+------------+-------+--------+----------------+
+10 rows in set (0.002 sec)
+
+===============================SOAL 6.2 PROCEDURE====================================
+
+2. Buatlah Stored Procedure dengan nama kurangi_stok untuk mengurangi stok produk.
+   Stok berkurang sesuai dengan jumlah pesanan produk.
+   
+MariaDB [dbpos]> USE dbkoperasi;
+Database changed
+MariaDB [dbkoperasi]> DELIMITER $$
+MariaDB [dbkoperasi]> CREATE PROCEDURE kurangi_stok(IN produk_id INT, IN jumlah INT)
+    -> BEGIN
+    -> UPDATE produk SET stok = stok - jumlah WHERE id = produk_id;
+    -> END $$
+Query OK, 0 rows affected (0.012 sec)
+
+MariaDB [dbkoperasi]> DELIMITER ;
+MariaDB [dbkoperasi]> SELECT kode,nama,stok,min_stok,jenis_produk_id FROM produk;
++------+------------------+------+----------+-----------------+
+| kode | nama             | stok | min_stok | jenis_produk_id |
++------+------------------+------+----------+-----------------+
+| TV01 | Televisi 21 inch |    5 |        2 |               1 |
+| TV02 | Televisi 40 inch |    4 |        2 |               1 |
+| K001 | Kulkas 2 pintu   |    6 |        2 |               1 |
+| M001 | Meja Makan       |    4 |        3 |               2 |
+| TK01 | Teh Kotak        |    6 |       10 |               4 |
+| PC01 | PC Desktop HP    |    9 |        2 |               5 |
+| TB01 | Teh Botol        |   53 |       10 |               4 |
+| AC01 | Notebook Acer    |    7 |        2 |               5 |
+| LN01 | Notebook Lenovo  |    9 |        2 |               5 |
+| L004 | Laptop HP        |   20 |        5 |               5 |
+| LK01 | Lemari Kayu      |   10 |        5 |               2 |
+| LP02 | Lemari Plastik   |    9 |        4 |               2 |
+| ES01 | Es Nutrisari     |   30 |       10 |               4 |
++------+------------------+------+----------+-----------------+
+13 rows in set (0.001 sec)
+
+MariaDB [dbkoperasi]> CALL kurangi_stok(13, 4);
+Query OK, 1 row affected (0.027 sec)
+
+MariaDB [dbkoperasi]> SELECT kode,nama,stok,min_stok,jenis_produk_id FROM produk;
++------+------------------+------+----------+-----------------+
+| kode | nama             | stok | min_stok | jenis_produk_id |
++------+------------------+------+----------+-----------------+
+| TV01 | Televisi 21 inch |    5 |        2 |               1 |
+| TV02 | Televisi 40 inch |    4 |        2 |               1 |
+| K001 | Kulkas 2 pintu   |    6 |        2 |               1 |
+| M001 | Meja Makan       |    4 |        3 |               2 |
+| TK01 | Teh Kotak        |    6 |       10 |               4 |
+| PC01 | PC Desktop HP    |    9 |        2 |               5 |
+| TB01 | Teh Botol        |   53 |       10 |               4 |
+| AC01 | Notebook Acer    |    7 |        2 |               5 |
+| LN01 | Notebook Lenovo  |    9 |        2 |               5 |
+| L004 | Laptop HP        |   20 |        5 |               5 |
+| LK01 | Lemari Kayu      |   10 |        5 |               2 |
+| LP02 | Lemari Plastik   |    9 |        4 |               2 |
+| ES01 | Es Nutrisari     |   26 |       10 |               4 |
++------+------------------+------+----------+-----------------+
+13 rows in set (0.001 sec)
+
+===============================SOAL 6.2 TRIGGER====================================
+
+3. Buatlah Trigger dengan nama trig_kurangi_stok yang akan mengurangi stok produk jika terjadi transaksi pesanan oleh
+   pelanggan (memanggil stored procedure kurangi_stok soal no 1). Trigger ini aktif setelah trigger after_pesanan_items_insert
+   (trigger pada contoh 3).
+
+MariaDB [dbkoperasi]> DELIMITER $$
+MariaDB [dbkoperasi]> CREATE TRIGGER trig_kurangi_stok
+    -> AFTER INSERT ON pesanan_items
+    -> FOR EACH ROW
+    -> BEGIN
+    -> DECLARE produk_id INT;
+    -> DECLARE qty INT;
+    -> SELECT produk_id, qty INTO produk_id, qty FROM pesanan_items WHERE id = NEW.id;
+    -> CALL kurangi_stok(produk_id, qty);
+    -> END $$
+Query OK, 0 rows affected (0.020 sec)
+
+MariaDB [dbkoperasi]> DELIMITER ;
+MariaDB [dbkoperasi]> SELECT * FROM pesanan_items;
++----+-----------+------------+------+----------+
+| id | produk_id | pesanan_id | qty  | harga    |
++----+-----------+------------+------+----------+
+|  1 |         1 |          1 |    1 |  5040000 |
+|  2 |         3 |          1 |    1 |  4680000 |
+|  3 |         5 |          2 |    5 |     3500 |
+|  6 |         5 |          3 |   10 |     3500 |
+|  7 |         1 |          3 |    1 |  5040000 |
+|  9 |         5 |          5 |   10 |     3500 |
+| 10 |         5 |          6 |   20 |     3500 |
+| 11 |        13 |         11 |   10 |    50000 |
+| 12 |        10 |         10 |    4 | 12000000 |
++----+-----------+------------+------+----------+
+9 rows in set (0.001 sec)
+
+MariaDB [dbkoperasi]> SELECT * FROM produk;
++----+------+------------------+------------+------------+------+----------+-----------------+
+| id | kode | nama             | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+------+------------------+------------+------------+------+----------+-----------------+
+|  1 | TV01 | Televisi 21 inch |    3500000 |    5040000 |    5 |        2 |               1 |
+|  2 | TV02 | Televisi 40 inch |    5500000 |    7440000 |    4 |        2 |               1 |
+|  3 | K001 | Kulkas 2 pintu   |    3500000 |    4680000 |    6 |        2 |               1 |
+|  4 | M001 | Meja Makan       |     500000 |     600000 |    4 |        3 |               2 |
+|  5 | TK01 | Teh Kotak        |       3000 |       3500 |    6 |       10 |               4 |
+|  6 | PC01 | PC Desktop HP    |    7000000 |    9984000 |    9 |        2 |               5 |
+|  7 | TB01 | Teh Botol        |       2000 |       2500 |   53 |       10 |               4 |
+|  8 | AC01 | Notebook Acer    |    8000000 |   11232000 |    7 |        2 |               5 |
+|  9 | LN01 | Notebook Lenovo  |    9000000 |   12480000 |    9 |        2 |               5 |
+| 10 | L004 | Laptop HP        |   12000000 |   13520000 |   20 |        5 |               5 |
+| 11 | LK01 | Lemari Kayu      |     500000 |     750000 |   10 |        5 |               2 |
+| 12 | LP02 | Lemari Plastik   |     400000 |     650000 |    9 |        4 |               2 |
+| 13 | ES01 | Es Nutrisari     |       6000 |       8000 |   26 |       10 |               4 |
++----+------+------------------+------------+------------+------+----------+-----------------+
+13 rows in set (0.001 sec)
+
+MariaDB [dbkoperasi]> DELIMITER $$
+MariaDB [dbkoperasi]> CREATE PROCEDURE kurangi_stokk(IN produk_id INT, IN qty INT)
+    -> BEGIN
+    -> UPDATE produk SET stok = stok - qty WHERE id = produk_id;
+    -> END $$
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [dbkoperasi]> DELIMITER ;
+MariaDB [dbkoperasi]> CALL kurangi_stokk(13, 4);
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [dbkoperasi]> INSERT INTO pesanan_items (produk_id, pesanan_id, qty, harga) VALUES
+    -> (13, 3, 5, 10000);
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [dbkoperasi]> SELECT * FROM pesanan_items;
++----+-----------+------------+------+----------+
+| id | produk_id | pesanan_id | qty  | harga    |
++----+-----------+------------+------+----------+
+|  1 |         1 |          1 |    1 |  5040000 |
+|  2 |         3 |          1 |    1 |  4680000 |
+|  3 |         5 |          2 |    5 |     3500 |
+|  6 |         5 |          3 |   10 |     3500 |
+|  7 |         1 |          3 |    1 |  5040000 |
+|  9 |         5 |          5 |   10 |     3500 |
+| 10 |         5 |          6 |   20 |     3500 |
+| 11 |        13 |         11 |   10 |    50000 |
+| 12 |        10 |         10 |    4 | 12000000 |
+| 13 |        13 |          3 |    5 |    10000 |
++----+-----------+------------+------+----------+
+10 rows in set (0.001 sec)
+
+MariaDB [dbkoperasi]> SELECT * FROM produk;
++----+------+------------------+------------+------------+------+----------+-----------------+
+| id | kode | nama             | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+------+------------------+------------+------------+------+----------+-----------------+
+|  1 | TV01 | Televisi 21 inch |    3500000 |    5040000 |    5 |        2 |               1 |
+|  2 | TV02 | Televisi 40 inch |    5500000 |    7440000 |    4 |        2 |               1 |
+|  3 | K001 | Kulkas 2 pintu   |    3500000 |    4680000 |    6 |        2 |               1 |
+|  4 | M001 | Meja Makan       |     500000 |     600000 |    4 |        3 |               2 |
+|  5 | TK01 | Teh Kotak        |       3000 |       3500 |    6 |       10 |               4 |
+|  6 | PC01 | PC Desktop HP    |    7000000 |    9984000 |    9 |        2 |               5 |
+|  7 | TB01 | Teh Botol        |       2000 |       2500 |   53 |       10 |               4 |
+|  8 | AC01 | Notebook Acer    |    8000000 |   11232000 |    7 |        2 |               5 |
+|  9 | LN01 | Notebook Lenovo  |    9000000 |   12480000 |    9 |        2 |               5 |
+| 10 | L004 | Laptop HP        |   12000000 |   13520000 |   20 |        5 |               5 |
+| 11 | LK01 | Lemari Kayu      |     500000 |     750000 |   10 |        5 |               2 |
+| 12 | LP02 | Lemari Plastik   |     400000 |     650000 |    9 |        4 |               2 |
+| 13 | ES01 | Es Nutrisari     |       6000 |       8000 |   18 |       10 |               4 |
++----+------+------------------+------------+------------+------+----------+-----------------+
+13 rows in set (0.001 sec)
